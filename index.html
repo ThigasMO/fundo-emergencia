@@ -8,21 +8,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    /* ── Reset & Base ───────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:       #4f8ef7;
-      --blue-dark:  #2563eb;
-      --pink:       #f953c6;
-      --pink-dark:  #c026a0;
+      --blue:        #4f8ef7;
+      --blue-dark:   #2563eb;
+      --pink:        #f953c6;
+      --pink-dark:   #c026a0;
+      --purple:      #a855f7;
       --grad-couple: linear-gradient(135deg, #4f8ef7, #a855f7, #f953c6);
       --grad-blue:   linear-gradient(135deg, #4f8ef7, #2563eb);
       --grad-pink:   linear-gradient(135deg, #f953c6, #c026a0);
       --grad-green:  linear-gradient(135deg, #10b981, #059669);
       --grad-amber:  linear-gradient(135deg, #f59e0b, #d97706);
       --bg:          #0a0a18;
-      --bg2:         #10102a;
       --card:        rgba(255,255,255,0.05);
       --card-hover:  rgba(255,255,255,0.08);
       --border:      rgba(255,255,255,0.08);
@@ -32,7 +31,6 @@
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: var(--bg);
@@ -41,270 +39,176 @@
       overflow-x: hidden;
     }
 
-    /* ── Animated BG blobs ──────────────────────────────── */
-    .blobs {
-      position: fixed; inset: 0; z-index: 0;
-      pointer-events: none; overflow: hidden;
-    }
-    .blob {
-      position: absolute; border-radius: 50%;
-      filter: blur(80px); opacity: 0.18;
-      animation: drift 18s ease-in-out infinite alternate;
-    }
-    .blob-1 { width: 600px; height: 600px; background: #4f8ef7; top: -200px; left: -150px; animation-delay: 0s; }
-    .blob-2 { width: 500px; height: 500px; background: #f953c6; bottom: -150px; right: -100px; animation-delay: -6s; }
-    .blob-3 { width: 350px; height: 350px; background: #a855f7; top: 40%; left: 40%; animation-delay: -12s; }
-
-    @keyframes drift {
-      0%   { transform: translate(0,0) scale(1); }
-      100% { transform: translate(40px, 60px) scale(1.1); }
-    }
+    /* ── BG blobs ───────────────────────────────────────── */
+    .blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .blob  { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; animation: drift 18s ease-in-out infinite alternate; }
+    .blob-1 { width:600px;height:600px;background:#4f8ef7;top:-200px;left:-150px;animation-delay:0s; }
+    .blob-2 { width:500px;height:500px;background:#f953c6;bottom:-150px;right:-100px;animation-delay:-6s; }
+    .blob-3 { width:350px;height:350px;background:#a855f7;top:40%;left:40%;animation-delay:-12s; }
+    @keyframes drift { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(40px,60px) scale(1.1)} }
 
     /* ── Layout ─────────────────────────────────────────── */
-    .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+    .page { position:relative;z-index:1;max-width:960px;margin:0 auto;padding:24px 16px 64px; }
 
     /* ── Header ─────────────────────────────────────────── */
-    .header {
-      text-align: center;
-      padding: 48px 0 40px;
-    }
-    .header-emoji { font-size: 3rem; display: block; margin-bottom: 12px; animation: heartbeat 2.2s ease-in-out infinite; }
+    .header { text-align:center; padding:48px 0 40px; }
+    .header-emoji { font-size:3rem;display:block;margin-bottom:12px;animation:heartbeat 2.2s ease-in-out infinite; }
     @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      14%     { transform: scale(1.18); }
-      28%     { transform: scale(1); }
-      42%     { transform: scale(1.12); }
-      56%     { transform: scale(1); }
+      0%,100%{transform:scale(1)} 14%{transform:scale(1.18)} 28%{transform:scale(1)} 42%{transform:scale(1.12)} 56%{transform:scale(1)}
     }
     .header-title {
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
-      font-weight: 800;
-      background: var(--grad-couple);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
+      font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.2;
+      background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
     }
-    .header-sub {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 400;
-    }
+    .header-sub { margin-top:12px; }
     .header-sub span {
-      display: inline-block;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 4px 14px;
-      font-size: 0.8rem;
+      display:inline-block;background:var(--card);border:1px solid var(--border);
+      border-radius:99px;padding:4px 14px;font-size:.8rem;color:var(--muted);
     }
 
-    /* ── Cards grid ─────────────────────────────────────── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-    @media (min-width: 600px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+    /* ── KPI grid ───────────────────────────────────────── */
+    .kpi-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:14px; }
+    @media(min-width:600px){ .kpi-grid{grid-template-columns:repeat(4,1fr)} }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 16px;
-      backdrop-filter: blur(12px);
-      transition: transform 0.2s, background 0.2s;
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:20px 16px;backdrop-filter:blur(12px);
+      transition:transform .2s,background .2s;
     }
-    .card:hover { transform: translateY(-3px); background: var(--card-hover); }
+    .card:hover { transform:translateY(-3px);background:var(--card-hover); }
+    .card-label { font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px; }
+    .card-value { font-size:clamp(1.1rem,3vw,1.6rem);font-weight:700;line-height:1.2; }
+    .card-value.blue   { background:var(--grad-blue);  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .card-value.pink   { background:var(--grad-pink);  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .card-value.green  { background:var(--grad-green); -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .card-value.amber  { background:var(--grad-amber); -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .card-sub { font-size:.72rem;color:var(--muted);margin-top:4px; }
 
-    .card-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .card-value {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      font-weight: 700;
-      line-height: 1.2;
-    }
-    .card-value.blue { background: var(--grad-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-value.pink { background: var(--grad-pink); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-value.green { background: var(--grad-green); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-value.amber { background: var(--grad-amber); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .card-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
-
-    /* ── Progress section ───────────────────────────────── */
+    /* ── Progress ───────────────────────────────────────── */
     .progress-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      margin-bottom: 14px;
-      backdrop-filter: blur(12px);
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:28px 24px;margin-bottom:14px;backdrop-filter:blur(12px);
     }
-    .progress-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 16px;
-    }
-    .progress-title { font-weight: 700; font-size: 1rem; }
+    .progress-header { display:flex;justify-content:space-between;align-items:center;margin-bottom:16px; }
+    .progress-title  { font-weight:700;font-size:1rem; }
     .progress-pct {
-      font-size: 1.4rem; font-weight: 800;
-      background: var(--grad-couple);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size:1.4rem;font-weight:800;
+      background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
     }
-    .progress-track {
-      width: 100%; height: 18px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 99px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .progress-fill {
-      height: 100%; width: 0;
-      background: var(--grad-couple);
-      border-radius: 99px;
-      transition: width 1.6s cubic-bezier(0.22,1,0.36,1);
-      position: relative;
-    }
+    .progress-track  { width:100%;height:18px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-bottom:10px; }
+    .progress-fill   { height:100%;width:0;background:var(--grad-couple);border-radius:99px;transition:width 1.6s cubic-bezier(.22,1,.36,1);position:relative; }
     .progress-fill::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
-      animation: shimmer 2s infinite;
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.25) 50%,transparent 100%);
+      animation:shimmer 2s infinite;
     }
-    @keyframes shimmer {
-      0%   { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    .progress-meta {
-      display: flex; justify-content: space-between;
-      font-size: 0.78rem; color: var(--muted);
-    }
+    @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+    .progress-meta { display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted); }
 
     /* ── Couple cards ───────────────────────────────────── */
-    .couple-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
+    .couple-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px; }
+    .person-card { border-radius:var(--radius);padding:24px 20px;backdrop-filter:blur(12px); }
+    .person-card.thithi { background:linear-gradient(135deg,rgba(79,142,247,.15),rgba(37,99,235,.08));border:1px solid rgba(79,142,247,.3); }
+    .person-card.bibi   { background:linear-gradient(135deg,rgba(249,83,198,.15),rgba(192,38,160,.08));border:1px solid rgba(249,83,198,.3); }
+    .person-avatar { font-size:2rem;margin-bottom:8px;display:block; }
+    .person-name   { font-weight:700;font-size:1rem;margin-bottom:4px; }
+    .person-name.thithi { color:var(--blue); }
+    .person-name.bibi   { color:var(--pink); }
+    .person-value  { font-size:1.5rem;font-weight:800; }
+    .person-value.thithi { background:var(--grad-blue);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .person-value.bibi   { background:var(--grad-pink);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .person-share  { font-size:.75rem;color:var(--muted);margin-top:4px; }
+    .person-bar-track { height:6px;background:rgba(255,255,255,.08);border-radius:99px;margin-top:12px;overflow:hidden; }
+    .person-bar-fill  { height:100%;border-radius:99px;width:0;transition:width 1.8s cubic-bezier(.22,1,.36,1) .3s; }
+    .person-bar-fill.thithi { background:var(--grad-blue); }
+    .person-bar-fill.bibi   { background:var(--grad-pink); }
+
+    /* ── Produtos CDB ───────────────────────────────────── */
+    .produtos-section { margin-bottom:14px; }
+    .produtos-title {
+      font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--muted);margin-bottom:10px;
     }
-    .person-card {
-      border-radius: var(--radius);
-      padding: 24px 20px;
-      backdrop-filter: blur(12px);
+    .produtos-grid { display:grid;gap:10px; }
+    .produto-card {
+      background:var(--card);border:1px solid var(--border);border-radius:12px;
+      padding:16px 18px;backdrop-filter:blur(12px);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      transition:transform .2s,background .2s;
     }
-    .person-card.thithi {
-      background: linear-gradient(135deg, rgba(79,142,247,0.15), rgba(37,99,235,0.08));
-      border: 1px solid rgba(79,142,247,0.3);
+    .produto-card:hover { transform:translateY(-2px);background:var(--card-hover); }
+    .produto-left { display:flex;align-items:center;gap:12px; }
+    .produto-dot  { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+    .produto-nome { font-weight:600;font-size:.9rem; }
+    .produto-taxa { font-size:.75rem;color:var(--muted);margin-top:2px; }
+    .produto-right { text-align:right; }
+    .produto-saldo { font-size:1.05rem;font-weight:700; }
+    .produto-yield { font-size:.72rem;color:var(--muted);margin-top:2px; }
+    .produto-badge {
+      font-size:.65rem;font-weight:600;border-radius:99px;padding:2px 8px;
+      margin-left:8px;vertical-align:middle;
     }
-    .person-card.bibi {
-      background: linear-gradient(135deg, rgba(249,83,198,0.15), rgba(192,38,160,0.08));
-      border: 1px solid rgba(249,83,198,0.3);
-    }
-    .person-avatar { font-size: 2rem; margin-bottom: 8px; display: block; }
-    .person-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-    .person-name.thithi { color: var(--blue); }
-    .person-name.bibi { color: var(--pink); }
-    .person-value { font-size: 1.5rem; font-weight: 800; }
-    .person-value.thithi { background: var(--grad-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .person-value.bibi { background: var(--grad-pink); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .person-share { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
-    .person-bar-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 99px; margin-top: 12px; overflow: hidden; }
-    .person-bar-fill { height: 100%; border-radius: 99px; width: 0; transition: width 1.8s cubic-bezier(0.22,1,0.36,1) 0.3s; }
-    .person-bar-fill.thithi { background: var(--grad-blue); }
-    .person-bar-fill.bibi   { background: var(--grad-pink); }
+    .badge-fechado { background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3); }
+    .badge-ativo   { background:rgba(16,185,129,.15);color:#10b981;border:1px solid rgba(16,185,129,.3); }
 
     /* ── Chart ──────────────────────────────────────────── */
     .chart-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 14px;
-      backdrop-filter: blur(12px);
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:24px;margin-bottom:14px;backdrop-filter:blur(12px);
     }
-    .chart-card h2 { font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px; }
-    .chart-wrap { position: relative; height: 220px; }
+    .chart-card h2 { font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px; }
+    .chart-wrap { position:relative;height:220px; }
 
-    /* ── Info section ───────────────────────────────────── */
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-    @media (max-width: 500px) { .info-grid, .couple-grid { grid-template-columns: 1fr; } }
-
-    .info-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px 20px;
-      backdrop-filter: blur(12px);
-    }
-    .info-card-icon { font-size: 1.6rem; margin-bottom: 8px; }
-    .info-card-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
-    .info-card-main { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-    .info-card-detail { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-
-    .badge {
-      display: inline-block;
-      border-radius: 99px;
-      padding: 3px 12px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      margin-top: 8px;
-    }
-    .badge-green  { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
-    .badge-blue   { background: rgba(79,142,247,0.2); color: var(--blue); border: 1px solid rgba(79,142,247,0.3); }
-    .badge-amber  { background: rgba(245,158,11,0.2); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
-
-    /* ── Previsão full-width ────────────────────────────── */
+    /* ── Forecast ───────────────────────────────────────── */
     .forecast-card {
-      background: linear-gradient(135deg, rgba(79,142,247,0.12), rgba(249,83,198,0.12));
-      border: 1px solid rgba(168,85,247,0.3);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      margin-bottom: 14px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      background:linear-gradient(135deg,rgba(79,142,247,.12),rgba(249,83,198,.12));
+      border:1px solid rgba(168,85,247,.3);border-radius:var(--radius);
+      padding:28px 24px;margin-bottom:14px;backdrop-filter:blur(12px);
+      display:flex;align-items:center;gap:20px;flex-wrap:wrap;
     }
-    .forecast-icon { font-size: 2.5rem; }
-    .forecast-text h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
-    .forecast-text p { font-size: 1.35rem; font-weight: 800; background: var(--grad-couple); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .forecast-text small { font-size: 0.78rem; color: var(--muted); }
+    .forecast-icon { font-size:2.5rem; }
+    .forecast-text h3 { font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin-bottom:4px; }
+    .forecast-text p  {
+      font-size:1.35rem;font-weight:800;
+      background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .forecast-text small { font-size:.78rem;color:var(--muted); }
+
+    /* ── CPTS11 ─────────────────────────────────────────── */
+    .cpts-card {
+      background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(79,142,247,.06));
+      border:1px solid rgba(79,142,247,.25);border-radius:var(--radius);
+      padding:22px 20px;margin-bottom:14px;backdrop-filter:blur(12px);
+      display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    }
+    .cpts-icon { font-size:2rem; }
+    .cpts-info h3 { font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin-bottom:4px; }
+    .cpts-info p  { font-weight:700;font-size:1rem; }
+    .cpts-info small { font-size:.76rem;color:var(--muted); }
+    .cpts-badge-wrap { margin-left:auto; }
+    .badge {
+      display:inline-block;border-radius:99px;padding:5px 14px;
+      font-size:.75rem;font-weight:600;
+    }
+    .badge-green { background:rgba(16,185,129,.2);color:#10b981;border:1px solid rgba(16,185,129,.3); }
+    .badge-amber { background:rgba(245,158,11,.2);color:#f59e0b;border:1px solid rgba(245,158,11,.3); }
 
     /* ── Footer ─────────────────────────────────────────── */
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.75rem;
-      padding-top: 12px;
-    }
-    .footer span { background: var(--grad-couple); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; }
+    .footer { text-align:center;color:var(--muted);font-size:.75rem;padding-top:12px; }
+    .footer span { background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600; }
 
     /* ── Loading ─────────────────────────────────────────── */
-    #loading {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 80vh; gap: 16px;
-    }
+    #loading { display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;gap:16px; }
     .spinner {
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.1);
-      border-top-color: #f953c6;
-      border-right-color: #4f8ef7;
-      animation: spin 0.8s linear infinite;
+      width:44px;height:44px;border-radius:50%;
+      border:3px solid rgba(255,255,255,.1);
+      border-top-color:#f953c6;border-right-color:#4f8ef7;
+      animation:spin .8s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    #app { display: none; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    #app { display:none; }
+
+    @media(max-width:500px){ .couple-grid,.kpi-grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -321,21 +225,18 @@
 
   <div id="app" class="page">
 
-    <!-- Header -->
     <header class="header">
       <span class="header-emoji">💕</span>
       <h1 class="header-title">Fundo de Emergência<br>Thithi &amp; Bibi</h1>
-      <p class="header-sub" style="margin-top:12px">
-        <span id="ultima-atualizacao">—</span>
-      </p>
+      <p class="header-sub"><span id="ultima-atualizacao">—</span></p>
     </header>
 
     <!-- KPIs -->
     <div class="kpi-grid">
       <div class="card">
-        <div class="card-label">💵 Saldo CDB</div>
+        <div class="card-label">💵 Total Investido</div>
         <div class="card-value blue" id="saldo-cdb">—</div>
-        <div class="card-sub">PagBank 130% CDI</div>
+        <div class="card-sub">Soma de todos os CDBs</div>
       </div>
       <div class="card">
         <div class="card-label">🎯 Meta</div>
@@ -376,27 +277,27 @@
         <div class="person-name thithi">Thithi</div>
         <div class="person-value thithi" id="thithi-total">—</div>
         <div class="person-share" id="thithi-share">—% do total</div>
-        <div class="person-bar-track">
-          <div class="person-bar-fill thithi" id="thithi-bar"></div>
-        </div>
+        <div class="person-bar-track"><div class="person-bar-fill thithi" id="thithi-bar"></div></div>
       </div>
       <div class="person-card bibi">
         <span class="person-avatar">👩</span>
         <div class="person-name bibi">Bibi</div>
         <div class="person-value bibi" id="bibi-total">—</div>
         <div class="person-share" id="bibi-share">—% do total</div>
-        <div class="person-bar-track">
-          <div class="person-bar-fill bibi" id="bibi-bar"></div>
-        </div>
+        <div class="person-bar-track"><div class="person-bar-fill bibi" id="bibi-bar"></div></div>
       </div>
+    </div>
+
+    <!-- Produtos CDB -->
+    <div class="produtos-section">
+      <div class="produtos-title">🏦 Produtos CDB — PagBank</div>
+      <div class="produtos-grid" id="produtos-grid"><!-- gerado pelo JS --></div>
     </div>
 
     <!-- Gráfico -->
     <div class="chart-card">
       <h2>📊 Evolução dos aportes mensais</h2>
-      <div class="chart-wrap">
-        <canvas id="chart"></canvas>
-      </div>
+      <div class="chart-wrap"><canvas id="chart"></canvas></div>
     </div>
 
     <!-- Previsão -->
@@ -413,32 +314,19 @@
       </div>
     </div>
 
-    <!-- Info Cards -->
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="info-card-icon">🏦</div>
-        <div class="info-card-title">CDB PagBank</div>
-        <div class="info-card-main" id="cdb-yield-mensal">—/mês</div>
-        <div class="info-card-detail">
-          Liquidez diária · CDI: <strong id="cdi-display">—</strong><br>
-          Multiplicador: <strong>130%</strong><br>
-          Rendimento estimado: <strong id="rend-estimado">—</strong>
-        </div>
-        <span class="badge badge-green">✅ Liquidez diária</span>
+    <!-- CPTS11 -->
+    <div class="cpts-card">
+      <div class="cpts-icon">📊</div>
+      <div class="cpts-info">
+        <h3>CPTS11 — Fundo Imobiliário</h3>
+        <p id="cpts-status-text">—</p>
+        <small>Cota adquirida para ativar o gatilho de dividendos mensais.</small>
       </div>
-      <div class="info-card">
-        <div class="info-card-icon">📊</div>
-        <div class="info-card-title">CPTS11 — FII</div>
-        <div class="info-card-main" id="cpts-status-text">—</div>
-        <div class="info-card-detail" id="cpts-detail">
-          Cota adquirida para ativar o<br>
-          gatilho de dividendos mensais.
-        </div>
+      <div class="cpts-badge-wrap">
         <span class="badge badge-green" id="cpts-badge">✅ Gatilho ativado</span>
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       Feito com <span>💕</span> para Thithi &amp; Bibi
       &nbsp;·&nbsp; Atualizado manualmente todo mês
@@ -447,185 +335,190 @@
   </div><!-- /app -->
 
   <script>
-    // ── Utilidades ─────────────────────────────────────────
-    const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const brl = v => v.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
     const pct = v => (v * 100).toFixed(1) + '%';
 
-    function addMonths(date, n) {
-      const d = new Date(date);
-      d.setMonth(d.getMonth() + n);
-      return d;
+    // Cores por produto (ciclado se tiver mais de 2)
+    const CORES = ['#4f8ef7','#f953c6','#a855f7','#10b981','#f59e0b'];
+
+    function addMonths(d, n) {
+      const r = new Date(d); r.setMonth(r.getMonth() + n); return r;
     }
 
-    function fmtMes(date) {
-      return date.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
-    }
-
-    // ── Chart.js gradient helper ────────────────────────────
-    function makeGradient(ctx, colorA, colorB) {
-      const g = ctx.createLinearGradient(0, 0, 0, 220);
-      g.addColorStop(0, colorA);
-      g.addColorStop(1, colorB);
-      return g;
-    }
-
-    // ── Render ──────────────────────────────────────────────
     async function render() {
-      const res  = await fetch('data.json');
-      const data = await res.json();
+      const data = await fetch('data.json').then(r => r.json());
 
-      const {
-        atualizado_em, meta, cdi_anual, multiplicador,
-        cdb_total, cpts11_cotas, historico
-      } = data;
+      const { atualizado_em, meta, cdi_anual, cpts11_cotas, historico, produtos_cdb } = data;
 
-      // Totais por pessoa
+      // ── Totais ───────────────────────────────────────────
+      const cdb_total    = produtos_cdb.reduce((s, p) => s + p.saldo, 0);
       const thithi_total = historico.reduce((s, r) => s + r.thithi, 0);
       const bibi_total   = historico.reduce((s, r) => s + r.bibi,   0);
       const juntos       = thithi_total + bibi_total;
-
-      // Yield CDB
-      const yield_anual  = cdi_anual * multiplicador;
-      const yield_mensal = Math.pow(1 + yield_anual, 1 / 12) - 1;
-      const meses_invest = historico.length;
-      const rend_estim   = cdb_total * yield_mensal * meses_invest;
-
-      // Progresso
       const progress_pct = cdb_total / meta;
       const falta        = Math.max(0, meta - cdb_total);
 
+      // Rendimento ponderado (média ponderada pelo saldo)
+      const rend_pond = produtos_cdb.reduce((s, p) => s + p.saldo * p.multiplicador, 0) / cdb_total;
+      const yield_mensal_pond = Math.pow(1 + cdi_anual * rend_pond, 1/12) - 1;
+      const rend_total_estim  = produtos_cdb.reduce((s, p) => {
+        const ym = Math.pow(1 + cdi_anual * p.multiplicador, 1/12) - 1;
+        return s + p.saldo * ym * historico.length;
+      }, 0);
+
       // Projeção
-      const aporte_medio = juntos / historico.length;
+      const aporte_medio    = juntos / historico.length;
       const meses_restantes = Math.ceil(falta / aporte_medio);
-      const data_meta = addMonths(new Date(), meses_restantes);
+      const data_meta       = addMonths(new Date(), meses_restantes);
 
-      // ── Atualiza DOM ──────────────────────────────────────
-      const d = new Date(atualizado_em + 'T00:00:00');
+      // ── DOM ──────────────────────────────────────────────
+      const dtAt = new Date(atualizado_em + 'T00:00:00');
       document.getElementById('ultima-atualizacao').textContent =
-        'Atualizado em ' + d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+        'Atualizado em ' + dtAt.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
 
-      document.getElementById('saldo-cdb').textContent  = brl(cdb_total);
-      document.getElementById('meta').textContent       = brl(meta);
-      document.getElementById('falta').textContent      = brl(falta);
-      document.getElementById('pct-kpi').textContent    = pct(progress_pct);
-      document.getElementById('pct-bar').textContent    = pct(progress_pct);
+      document.getElementById('saldo-cdb').textContent = brl(cdb_total);
+      document.getElementById('meta').textContent      = brl(meta);
+      document.getElementById('falta').textContent     = brl(falta);
+      document.getElementById('pct-kpi').textContent   = pct(progress_pct);
+      document.getElementById('pct-bar').textContent   = pct(progress_pct);
       document.getElementById('saldo-label').textContent = brl(cdb_total);
       document.getElementById('meta-label').textContent  = 'Meta: ' + brl(meta);
 
       document.getElementById('thithi-total').textContent = brl(thithi_total);
       document.getElementById('bibi-total').textContent   = brl(bibi_total);
-      document.getElementById('thithi-share').textContent = (juntos > 0 ? (thithi_total/juntos*100).toFixed(0) : 0) + '% do total';
-      document.getElementById('bibi-share').textContent   = (juntos > 0 ? (bibi_total/juntos*100).toFixed(0)   : 0) + '% do total';
+      document.getElementById('thithi-share').textContent = (juntos > 0 ? (thithi_total/juntos*100).toFixed(0) : 0) + '% do total aportado';
+      document.getElementById('bibi-share').textContent   = (juntos > 0 ? (bibi_total  /juntos*100).toFixed(0) : 0) + '% do total aportado';
 
-      document.getElementById('cdi-display').textContent    = pct(cdi_anual);
-      document.getElementById('cdb-yield-mensal').textContent = '+' + pct(yield_mensal) + ' / mês';
-      document.getElementById('rend-estimado').textContent    = brl(rend_estim) + ' (est.)';
-
-      document.getElementById('aporte-medio').textContent   = brl(aporte_medio);
-      document.getElementById('forecast-date').textContent  =
-        data_meta.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+      document.getElementById('aporte-medio').textContent  = brl(aporte_medio);
+      document.getElementById('forecast-date').textContent =
+        data_meta.toLocaleDateString('pt-BR', { month:'long', year:'numeric' });
       document.getElementById('forecast-detail').textContent =
-        'Faltam aprox. ' + meses_restantes + ' meses · baseado no aporte médio mensal';
+        'Faltam aprox. ' + meses_restantes + ' meses · aporte médio mensal de ' + brl(aporte_medio);
 
       if (cpts11_cotas >= 1) {
         document.getElementById('cpts-status-text').textContent = cpts11_cotas + ' cota adquirida';
         document.getElementById('cpts-badge').textContent = '✅ Gatilho ativado';
         document.getElementById('cpts-badge').className   = 'badge badge-green';
       } else {
-        document.getElementById('cpts-status-text').textContent = 'Nenhuma cota';
+        document.getElementById('cpts-status-text').textContent = 'Nenhuma cota ainda';
         document.getElementById('cpts-badge').textContent = '⚠️ Comprar 1 cota';
         document.getElementById('cpts-badge').className   = 'badge badge-amber';
       }
 
-      // ── Animações após render ─────────────────────────────
+      // ── Produtos CDB (cards dinâmicos) ───────────────────
+      const grid = document.getElementById('produtos-grid');
+      grid.style.gridTemplateColumns = produtos_cdb.length === 1 ? '1fr' : 'repeat(auto-fit,minmax(260px,1fr))';
+
+      produtos_cdb.forEach((p, i) => {
+        const cor     = CORES[i % CORES.length];
+        const ym      = Math.pow(1 + cdi_anual * p.multiplicador, 1/12) - 1;
+        const rendEst = p.saldo * ym * historico.length;
+        const multPct = Math.round(p.multiplicador * 100);
+
+        const card = document.createElement('div');
+        card.className = 'produto-card';
+        card.innerHTML = `
+          <div class="produto-left">
+            <div class="produto-dot" style="background:${cor}"></div>
+            <div>
+              <div class="produto-nome">
+                ${p.nome}
+                <span class="produto-badge ${p.fechado ? 'badge-fechado' : 'badge-ativo'}">
+                  ${p.fechado ? '🔒 Encerrado' : '✅ Ativo'}
+                </span>
+              </div>
+              <div class="produto-taxa">
+                ${multPct}% do CDI (${pct(cdi_anual * p.multiplicador)} a.a.)
+                &nbsp;·&nbsp; +${pct(ym)}/mês · Liquidez diária
+              </div>
+            </div>
+          </div>
+          <div class="produto-right">
+            <div class="produto-saldo" style="background:linear-gradient(135deg,${cor},${cor}aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+              ${brl(p.saldo)}
+            </div>
+            <div class="produto-yield">≈ ${brl(rendEst)} estimado em juros</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Linha de total ponderado se houver mais de 1 produto
+      if (produtos_cdb.length > 1) {
+        const totalCard = document.createElement('div');
+        totalCard.className = 'produto-card';
+        totalCard.style.borderColor = 'rgba(168,85,247,.35)';
+        totalCard.style.background  = 'rgba(168,85,247,.06)';
+        totalCard.innerHTML = `
+          <div class="produto-left">
+            <div class="produto-dot" style="background:var(--purple)"></div>
+            <div>
+              <div class="produto-nome">Rendimento médio ponderado</div>
+              <div class="produto-taxa">Média dos seus CDBs pesada pelo saldo de cada um</div>
+            </div>
+          </div>
+          <div class="produto-right">
+            <div class="produto-saldo" style="background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+              +${pct(yield_mensal_pond)}/mês
+            </div>
+            <div class="produto-yield">≈ ${brl(rend_total_estim)} total estimado</div>
+          </div>
+        `;
+        grid.appendChild(totalCard);
+      }
+
+      // ── Animações ────────────────────────────────────────
       document.getElementById('loading').style.display = 'none';
       document.getElementById('app').style.display     = 'block';
 
       requestAnimationFrame(() => {
         setTimeout(() => {
-          document.getElementById('progress-fill').style.width =
-            Math.min(progress_pct * 100, 100) + '%';
-          document.getElementById('thithi-bar').style.width =
-            (juntos > 0 ? (thithi_total / juntos) * 100 : 0) + '%';
-          document.getElementById('bibi-bar').style.width =
-            (juntos > 0 ? (bibi_total / juntos) * 100 : 0) + '%';
+          document.getElementById('progress-fill').style.width = Math.min(progress_pct*100,100)+'%';
+          document.getElementById('thithi-bar').style.width = (juntos>0 ? thithi_total/juntos*100 : 0)+'%';
+          document.getElementById('bibi-bar').style.width   = (juntos>0 ? bibi_total  /juntos*100 : 0)+'%';
         }, 200);
       });
 
-      // ── Chart ────────────────────────────────────────────
-      const canvas = document.getElementById('chart');
-      const ctx    = canvas.getContext('2d');
-
-      const labels    = historico.map(r => r.mes);
-      const thithi_d  = historico.map(r => r.thithi);
-      const bibi_d    = historico.map(r => r.bibi);
-
-      new Chart(ctx, {
+      // ── Chart ─────────────────────────────────────────────
+      new Chart(document.getElementById('chart'), {
         type: 'bar',
         data: {
-          labels,
+          labels: historico.map(r => r.mes),
           datasets: [
             {
               label: 'Thithi',
-              data: thithi_d,
-              backgroundColor: 'rgba(79,142,247,0.8)',
+              data: historico.map(r => r.thithi),
+              backgroundColor: 'rgba(79,142,247,.8)',
               borderColor: '#4f8ef7',
-              borderWidth: 2,
-              borderRadius: 8,
-              borderSkipped: false,
+              borderWidth: 2, borderRadius: 8, borderSkipped: false,
             },
             {
               label: 'Bibi',
-              data: bibi_d,
-              backgroundColor: 'rgba(249,83,198,0.8)',
+              data: historico.map(r => r.bibi),
+              backgroundColor: 'rgba(249,83,198,.8)',
               borderColor: '#f953c6',
-              borderWidth: 2,
-              borderRadius: 8,
-              borderSkipped: false,
+              borderWidth: 2, borderRadius: 8, borderSkipped: false,
             }
           ]
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
           plugins: {
-            legend: {
-              labels: {
-                color: 'rgba(255,255,255,0.7)',
-                font: { family: 'Poppins', size: 12 },
-                boxWidth: 14,
-                boxHeight: 14,
-                borderRadius: 4,
-              }
-            },
+            legend: { labels: { color:'rgba(255,255,255,.7)', font:{family:'Poppins',size:12}, boxWidth:14, boxHeight:14 } },
             tooltip: {
-              callbacks: {
-                label: ctx => ' ' + brl(ctx.raw)
-              },
-              backgroundColor: 'rgba(16,16,40,0.95)',
-              titleColor: '#fff',
-              bodyColor: 'rgba(255,255,255,0.7)',
-              borderColor: 'rgba(255,255,255,0.1)',
-              borderWidth: 1,
-              padding: 12,
-              titleFont: { family: 'Poppins', weight: '700' },
-              bodyFont: { family: 'Poppins' },
+              callbacks: { label: c => ' ' + brl(c.raw) },
+              backgroundColor:'rgba(16,16,40,.95)', titleColor:'#fff',
+              bodyColor:'rgba(255,255,255,.7)', borderColor:'rgba(255,255,255,.1)',
+              borderWidth:1, padding:12,
+              titleFont:{family:'Poppins',weight:'700'}, bodyFont:{family:'Poppins'},
             }
           },
           scales: {
-            x: {
-              stacked: false,
-              grid: { color: 'rgba(255,255,255,0.05)' },
-              ticks: { color: 'rgba(255,255,255,0.5)', font: { family: 'Poppins', size: 11 } },
-            },
+            x: { grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'rgba(255,255,255,.5)',font:{family:'Poppins',size:11}} },
             y: {
-              beginAtZero: true,
-              grid: { color: 'rgba(255,255,255,0.05)' },
-              ticks: {
-                color: 'rgba(255,255,255,0.5)',
-                font: { family: 'Poppins', size: 11 },
-                callback: v => 'R$ ' + v.toLocaleString('pt-BR')
-              }
+              beginAtZero:true,
+              grid:{color:'rgba(255,255,255,.05)'},
+              ticks:{color:'rgba(255,255,255,.5)',font:{family:'Poppins',size:11},callback:v=>'R$ '+v.toLocaleString('pt-BR')}
             }
           }
         }
@@ -634,7 +527,7 @@
 
     render().catch(err => {
       document.getElementById('loading').innerHTML =
-        '<p style="color:#f87171;font-size:.9rem">Erro ao carregar dados.<br><small>' + err.message + '</small></p>';
+        '<p style="color:#f87171;font-size:.9rem">Erro ao carregar dados.<br><small>'+err.message+'</small></p>';
     });
   </script>
 </body>
