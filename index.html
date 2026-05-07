@@ -174,6 +174,24 @@
     }
     .forecast-text small { font-size:.78rem;color:var(--muted); }
 
+    /* ── Patrimônio total ───────────────────────────────── */
+    .patrimonio-card {
+      background: linear-gradient(135deg, rgba(168,85,247,.12), rgba(249,83,198,.08));
+      border: 1px solid rgba(168,85,247,.3); border-radius: var(--radius);
+      padding: 22px 24px; margin-bottom: 14px; backdrop-filter: blur(12px);
+    }
+    .patrimonio-title { font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:14px; }
+    .patrimonio-row   { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--border); }
+    .patrimonio-row:last-child { border-bottom:none; }
+    .patrimonio-row.total { border-top: 1px solid rgba(168,85,247,.3); border-bottom:none; padding-top:12px; margin-top:4px; }
+    .patrimonio-label { font-size:.85rem;color:var(--muted); }
+    .patrimonio-label strong { color:var(--text);font-weight:600; }
+    .patrimonio-value { font-size:.95rem;font-weight:700;text-align:right; }
+    .patrimonio-row.total .patrimonio-label strong { font-size:1rem; }
+    .patrimonio-row.total .patrimonio-value { font-size:1.15rem; background:var(--grad-couple);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .var-neg { color:#f87171;font-size:.72rem;margin-left:6px; }
+    .var-pos { color:#10b981;font-size:.72rem;margin-left:6px; }
+
     /* ── CPTS11 ─────────────────────────────────────────── */
     .cpts-card {
       background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(79,142,247,.06));
@@ -185,7 +203,7 @@
     .cpts-info h3 { font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;margin-bottom:4px; }
     .cpts-info p  { font-weight:700;font-size:1rem; }
     .cpts-info small { font-size:.76rem;color:var(--muted); }
-    .cpts-badge-wrap { margin-left:auto; }
+    .cpts-badge-wrap { margin-left:auto;text-align:right; }
     .badge {
       display:inline-block;border-radius:99px;padding:5px 14px;
       font-size:.75rem;font-weight:600;
@@ -314,6 +332,23 @@
       </div>
     </div>
 
+    <!-- Patrimônio Total -->
+    <div class="patrimonio-card">
+      <div class="patrimonio-title">💼 Patrimônio total — todos os investimentos</div>
+      <div class="patrimonio-row">
+        <div class="patrimonio-label"><strong>CDB PagBank (todos)</strong><br><span style="font-size:.75rem">Fundo de emergência · liquidez diária</span></div>
+        <div class="patrimonio-value" id="pat-cdb">—</div>
+      </div>
+      <div class="patrimonio-row">
+        <div class="patrimonio-label"><strong>CPTS11</strong> <span id="pat-cpts-cotas" style="font-size:.75rem"></span><br><span style="font-size:.75rem">FII · dividendos mensais</span></div>
+        <div class="patrimonio-value" id="pat-cpts">—</div>
+      </div>
+      <div class="patrimonio-row total">
+        <div class="patrimonio-label"><strong>Total investido juntos</strong></div>
+        <div class="patrimonio-value" id="pat-total">—</div>
+      </div>
+    </div>
+
     <!-- CPTS11 -->
     <div class="cpts-card">
       <div class="cpts-icon">📊</div>
@@ -323,7 +358,8 @@
         <small>Cota adquirida para ativar o gatilho de dividendos mensais.</small>
       </div>
       <div class="cpts-badge-wrap">
-        <span class="badge badge-green" id="cpts-badge">✅ Gatilho ativado</span>
+        <span class="badge badge-green" id="cpts-badge">✅ Gatilho ativado</span><br>
+        <small id="cpts-var" style="font-size:.72rem;margin-top:4px;display:block"></small>
       </div>
     </div>
 
@@ -348,7 +384,7 @@
     async function render() {
       const data = await fetch('data.json').then(r => r.json());
 
-      const { atualizado_em, meta, cdi_anual, cpts11_cotas, historico, produtos_cdb } = data;
+      const { atualizado_em, meta, cdi_anual, cpts11_cotas, cpts11_saldo, cpts11_preco_medio, cpts11_dividendo_recebido, historico, produtos_cdb } = data;
 
       // ── Totais ───────────────────────────────────────────
       const cdb_total    = produtos_cdb.reduce((s, p) => s + p.saldo, 0);
@@ -395,15 +431,37 @@
       document.getElementById('forecast-detail').textContent =
         'Faltam aprox. ' + meses_restantes + ' meses · aporte médio mensal de ' + brl(aporte_medio);
 
+      // CPTS11
+      const cpts_var     = (cpts11_saldo || 0) - (cpts11_preco_medio || 0) * (cpts11_cotas || 0);
+      const cpts_var_pct = cpts11_preco_medio ? cpts_var / (cpts11_preco_medio * cpts11_cotas) : 0;
+
       if (cpts11_cotas >= 1) {
-        document.getElementById('cpts-status-text').textContent = cpts11_cotas + ' cota adquirida';
-        document.getElementById('cpts-badge').textContent = '✅ Gatilho ativado';
-        document.getElementById('cpts-badge').className   = 'badge badge-green';
+        document.getElementById('cpts-status-text').textContent =
+          cpts11_cotas + ' cota · posição atual: ' + brl(cpts11_saldo || 0);
+        document.getElementById('cpts-badge').textContent = cpts11_dividendo_recebido ? '✅ Dividendo recebido' : '⏳ Aguardando dividendo';
+        document.getElementById('cpts-badge').className   = cpts11_dividendo_recebido ? 'badge badge-green' : 'badge badge-amber';
       } else {
         document.getElementById('cpts-status-text').textContent = 'Nenhuma cota ainda';
         document.getElementById('cpts-badge').textContent = '⚠️ Comprar 1 cota';
         document.getElementById('cpts-badge').className   = 'badge badge-amber';
       }
+
+      const varEl = document.getElementById('cpts-var');
+      if (cpts11_saldo && cpts11_preco_medio) {
+        const pos  = cpts_var >= 0;
+        varEl.innerHTML =
+          '<span class="' + (pos ? 'var-pos' : 'var-neg') + '">' +
+          (pos ? '+' : '') + brl(cpts_var) + ' (' + (pos ? '+' : '') + pct(cpts_var_pct) + ')' +
+          '</span> vs preço médio';
+      }
+
+      // Patrimônio total
+      const pat_cpts  = cpts11_saldo || 0;
+      const pat_total = cdb_total + pat_cpts;
+      document.getElementById('pat-cdb').textContent         = brl(cdb_total);
+      document.getElementById('pat-cpts').textContent        = brl(pat_cpts);
+      document.getElementById('pat-cpts-cotas').textContent  = '· ' + (cpts11_cotas || 0) + ' cota';
+      document.getElementById('pat-total').textContent       = brl(pat_total);
 
       // ── Produtos CDB (cards dinâmicos) ───────────────────
       const grid = document.getElementById('produtos-grid');
