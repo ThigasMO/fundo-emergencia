@@ -8,7 +8,7 @@
   "cpts11_dividendo_recebido": false,
   "produtos_cdb": [
     { "nome": "CDB PagBank 130% CDI", "multiplicador": 1.30, "saldo": 606.20, "fechado": true  },
-    { "nome": "CDB PagBank 103% CDI", "multiplicador": 1.03, "saldo": 305.00, "fechado": false }
+    { "nome": "CDB PagBank 103% CDI", "multiplicador": 1.03, "saldo": 350.00, "fechado": false }
   ],
   "historico": [
     { "mes": "Abr/2026", "data": "2026-04-13", "bibi": 100.00, "thithi": 250.00 },
