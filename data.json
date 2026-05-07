@@ -1,12 +1,12 @@
 {
-  "atualizado_em": "2026-05-04",
+  "atualizado_em": "2026-05-06",
   "meta": 12000,
   "cdi_anual": 0.1325,
   "multiplicador": 1.30,
-  "cdb_total": 598.90,
+  "cdb_total": 948.90,
   "cpts11_cotas": 1,
   "historico": [
     { "mes": "Abr/2026", "data": "2026-04-13", "bibi": 100.00, "thithi": 250.00, "cdb": 268.90 },
-    { "mes": "Mai/2026", "data": "2026-05-04", "bibi": 0.00,   "thithi": 330.00, "cdb": 330.00 }
+    { "mes": "Mai/2026", "data": "2026-05-06", "bibi": 0.00,   "thithi": 680.00, "cdb": 680.00 }
   ]
 }
