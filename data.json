@@ -1,5 +1,5 @@
 {
-  "atualizado_em": "2026-05-11",
+  "atualizado_em": "2026-06-15",
   "meta": 12000,
   "cdi_anual": 0.1325,
   "cpts11_cotas": 1,
@@ -8,10 +8,11 @@
   "cpts11_dividendo_recebido": false,
   "produtos_cdb": [
     { "nome": "CDB PagBank 130% CDI", "multiplicador": 1.30, "saldo": 606.20, "fechado": true  },
-    { "nome": "CDB PagBank 103% CDI", "multiplicador": 1.03, "saldo": 400.00, "fechado": false }
+    { "nome": "CDB PagBank 103% CDI", "multiplicador": 1.03, "saldo": 900.00, "fechado": false }
   ],
   "historico": [
     { "mes": "Abr/2026", "data": "2026-04-13", "bibi": 100.00, "thithi": 250.00 },
-    { "mes": "Mai/2026", "data": "2026-05-11", "bibi": 50.00,  "thithi": 635.00 }
+    { "mes": "Mai/2026", "data": "2026-05-11", "bibi": 50.00,  "thithi": 635.00 },
+    { "mes": "Jun/2026", "data": "2026-06-15", "bibi": 0.00,   "thithi": 500.00 }
   ]
 }
